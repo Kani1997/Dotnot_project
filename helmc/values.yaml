@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+replicaCount: 1
+image:
+  repository: 759798479807.dkr.ecr.ap-northeast-1.amazonaws.com/dot-net-docker:latest
+  pullPolicy: IfNotPresent
+  tag: latest
+imagePullSecrets: [my-secret]
+nameOverride: dot-net-app
+fullnameOverride: dot-net-app
+serviceAccount:
+  create: true
+  annotations: {}
+  name: my-service-account
+podAnnotations: {}
+podSecurityContext: {}
+securityContext: {}
+service:
+  type: ClusterIP
+  port: 80
+ingress:
+  enabled: false
+  className: dot-net-ingress
+  annotations: {}
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+resources: {}
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+nodeSelector: {}
+tolerations: []
+affinity: {}
